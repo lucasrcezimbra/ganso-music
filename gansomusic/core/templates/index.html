@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Ganso Music</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/static/icons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/static/icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/static/icons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/static/icons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/static/icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/static/icons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/static/icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/static/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/static/icons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/static/icons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/static/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/static/icons/manifest.json">
+  <link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#f38620">
+  <link rel="shortcut icon" href="/static/icons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/static/icons/mstile-144x144.png">
+  <meta name="msapplication-config" content="/static/icons/browserconfig.xml">
+  <meta name="theme-color" content="#f38620">
+
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+
+<body id="all">
+  <div class="container">
+    <h1>
+      <img src="static/images/ganso.png" alt="Ganso">
+      Ganso Music
+    </h1>
+
+    <div class="row">
+      <div class="col-sm-12 col-xs-12 col-md-8 col-md-offset-2">
+        <form action="download" method="POST">
+          <div class="form-group">
+            <label class="control-label" for="">*URL do YouTube:</label>
+            <input type="text" name='url' placeholder='URL do YouTube' class="form-control" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="">Título:</label>
+            <input type="text" name='title' placeholder="Título" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="">Artista:</label>
+            <input type="text" name='artist' placeholder="Artista" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="">Gênero:</label>
+            <input type="text" name='gender' placeholder="Gênero" class="form-control">
+          </div>
+
+          <input type="text" name='album' hidden>
+          <input type="reset" value="Clear" class="btn btn-lg btn-danger">
+          <input type="submit" value='Download' class="btn btn-lg btn-warning pull-right">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
