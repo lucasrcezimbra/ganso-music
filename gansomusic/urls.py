@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from gansomusic.core.views import index
+from gansomusic.core.views import index, download
 
 urlpatterns = [
     url(r'^$', index),
+    url(r'^download/', download),
     url(r'^admin/', admin.site.urls),
 ]
