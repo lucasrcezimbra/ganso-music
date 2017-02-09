@@ -1,0 +1,12 @@
+#all {
+  background-color: #303030;
+  color: #ecf0f1;
+}
+
+h1 {
+  text-align: center;
+}
+
+img {
+  max-height: 100px;
+}
