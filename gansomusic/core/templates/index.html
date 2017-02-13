@@ -40,7 +40,8 @@
 
     <div class="row">
       <div class="col-sm-12 col-xs-12 col-md-8 col-md-offset-2">
-        <form action="download" method="POST">
+        <form action="download/" method="POST">
+		  {% csrf_token %}
           <div class="form-group">
             <label class="control-label" for="">*URL do YouTube:</label>
             <input type="text" name='url' placeholder='URL do YouTube' class="form-control" required/>
