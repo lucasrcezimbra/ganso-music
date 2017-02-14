@@ -13,8 +13,8 @@ def download(request):
         url = form.data['url']
         audio = pafy.new(url).getbestaudio()
         filepath = audio.download()
-        file = open(filepath, 'rb')
-        response = HttpResponse(content=file)
+        audio_file = open(filepath, 'rb')
+        response = HttpResponse(content=audio_file)
         response['Content-Type'] = 'audio/mpeg3'
         response['Content-Disposition'] = ('attachment; filename={}'.format(filepath))
         return response
