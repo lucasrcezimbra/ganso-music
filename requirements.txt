@@ -5,3 +5,4 @@ static3==0.7.0
 gunicorn==19.6.0
 pafy==0.5.3.1
 youtube-dl==2017.2.14
+django-extensions==1.7.6
