@@ -43,16 +43,17 @@ class DownloadTest(TestCase):
     def tearDown(self):
         os.remove(self.filename)
 
-    # def test_response_content_disposition(self):
-    #     content_disposition = "attachment; filename=audio.mp3"
-    #     self.assertEquals(content_disposition, self.response.get('Content-Disposition'))
+    def test_response_content_disposition(self):
+        content_disposition = 'attachment; filename={}'.format(self.filename)
+        self.assertEquals(content_disposition, self.response.get('Content-Disposition'))
 
-    # def test_response_content_type_is_mp3(self):
-    #     content_type = 'audio/mpeg3'
-    #     self.assertEquals(content_type, self.response.get('Content-Type'))
+    def test_response_content_type_is_mp3(self):
+        content_type = 'audio/mpeg3'
+        self.assertEquals(content_type, self.response.get('Content-Type'))
 
-    # def test_content_is_not_none(self):
-    #     self.assertTrue(self.response.content)
+    def test_content_is_not_none(self):
+        self.assertTrue(self.response.content)
+
 
 class MusicFormTest(TestCase):
     def test_form_has_fields(self):
