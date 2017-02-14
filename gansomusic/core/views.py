@@ -12,10 +12,15 @@ def download(request):
     if request.method == 'POST':
         form = MusicForm(request.POST)
         url = form.data['url']
+        title = form.data.get('title')
+        artist = form.data.get('artist')
+        genre = form.data.get('genre')
         audio = pafy.new(url).getbestaudio()
         filepath = audio.download()
 
-        mp3_filepath = convert_to_mp3(audio.title, filepath, audio.extension)
+        mp3_filepath = convert_to_mp3_with_tags(audio.title,
+                                                filepath, audio.extension,
+                                                title, artist, genre)
 
         audio_file = open(mp3_filepath, 'rb')
         response = HttpResponse(content=audio_file)
@@ -24,10 +29,13 @@ def download(request):
                                            .format(mp3_filepath)
         return response
 
-def convert_to_mp3(newtitle, file, extension):
+def convert_to_mp3_with_tags(newtitle, file, extension, title, artist, genre):
+    tags = {'artist': artist,
+            'title': title,
+            'genre': genre}
     mp3_filepath = slugify('{}.mp3'.format(newtitle))
     mp3_audio = AudioSegment.from_file(file, extension)
-    mp3_audio.export(mp3_filepath, format='mp3')
+    mp3_audio.export(mp3_filepath, format='mp3', tags=tags)
     return mp3_filepath
 
 def slugify(value):
