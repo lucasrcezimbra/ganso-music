@@ -30,7 +30,9 @@ class HomeTest(TestCase):
 class DownloadTest(TestCase):
     def setUp(self):
         self.url = 'wJM-eaC8mug'
-        self.filename = 'MENOR VIDEO DO MUNDO!_ THE BIGGER VIDEO IN THE WORLD!.m4a'
+        self.filepath = 'MENOR VIDEO DO MUNDO!_ THE BIGGER VIDEO IN THE WORLD!.m4a'
+        self.filename = 'MENOR VIDEO DO MUNDO! THE BIGGER VIDEO IN THE WORLD!'
+        self.extension = 'mp3'
         data = dict(url=self.url)
         self.response = self.client.post('/download/', data)
 
@@ -38,14 +40,13 @@ class DownloadTest(TestCase):
         self.assertEqual(200, self.response.status_code)
 
     def test_download_file(self):
-        self.assertTrue(os.path.isfile(self.filename))
-
-    def tearDown(self):
-        os.remove(self.filename)
+        self.assertTrue(os.path.isfile(self.filepath))
 
     def test_response_content_disposition(self):
-        content_disposition = 'attachment; filename={}'.format(self.filename)
-        self.assertEquals(content_disposition, self.response.get('Content-Disposition'))
+        filename = '{}.{}'.format(self.filename, self.extension)
+        content_disposition = 'attachment; filename={}'.format(filename)
+        self.assertEquals(content_disposition,
+                          self.response.get('Content-Disposition'))
 
     def test_response_content_type_is_mp3(self):
         content_type = 'audio/mpeg3'
@@ -54,6 +55,13 @@ class DownloadTest(TestCase):
     def test_content_is_not_none(self):
         self.assertTrue(self.response.content)
 
+    def test_file_is_mp3(self):
+        extension = self.response.get('Content-Disposition').split('.')[-1]
+        self.assertEqual('mp3', extension)
+
+    def tearDown(self):
+        os.remove(self.filepath)
+        os.remove('{}.{}'.format(self.filename, self.extension))
 
 class MusicFormTest(TestCase):
     def test_form_has_fields(self):
