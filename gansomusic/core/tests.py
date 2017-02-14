@@ -44,9 +44,6 @@ class DownloadTest(TestCase):
     def test_post(self):
         self.assertEqual(200, self.response.status_code)
 
-    def test_download_file(self):
-        self.assertTrue(os.path.isfile(self.filepath))
-
     def test_response_content_disposition(self):
         filename = '{}.{}'.format(self.filename, self.extension)
         content_disposition = 'attachment; filename={}'.format(filename)
@@ -71,14 +68,16 @@ class DownloadTest(TestCase):
             file.write(self.response._container[0])
 
         tags = mediainfo(response_file)['TAG']
-        # import pdb;pdb.set_trace()
         self.assertEqual(self.title, tags.get('title'))
         self.assertEqual(self.artist, tags.get('artist'))
         self.assertEqual(self.genre, tags.get('genre'))
 
+    def test_delete_audio_after_response(self):
+        self.assertFalse(os.path.exists(self.filepath))
+        self.assertFalse(os.path.exists('{}.{}'.format(self.filename,
+                                                       self.extension)))
+
     def tearDown(self):
-        os.remove(self.filepath)
-        os.remove('{}.{}'.format(self.filename, self.extension))
         if os.path.exists('response_audio.mp3'):
             os.remove('response_audio.mp3')
 

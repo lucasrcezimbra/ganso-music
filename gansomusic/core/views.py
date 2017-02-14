@@ -1,5 +1,6 @@
 from gansomusic.core.forms import MusicForm
 
+import os
 import pafy
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -27,6 +28,8 @@ def download(request):
         response['Content-Type'] = 'audio/mpeg3'
         response['Content-Disposition'] = 'attachment; filename={}'\
                                            .format(mp3_filepath)
+        os.remove(filepath)
+        os.remove(mp3_filepath)
         return response
 
 def convert_to_mp3_with_tags(newtitle, file, extension, title, artist, genre):
