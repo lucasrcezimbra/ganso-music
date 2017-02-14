@@ -15,6 +15,18 @@ class HomeTest(TestCase):
     def test_has_csrf_token(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')
 
+    def test_html(self):
+        """Html must contain input tags"""
+        tags = (('<form', 1),
+                ('<input', 7),
+                ('type="text"', 4),
+                ('type="reset"', 1),
+                ('type="submit"', 1))
+
+        for text, count in tags:
+            with self.subTest():
+                self.assertContains(self.response, text, count)
+
 class DownloadTest(TestCase):
     def setUp(self):
         self.url = 'wJM-eaC8mug'
