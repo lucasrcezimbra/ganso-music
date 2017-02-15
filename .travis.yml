@@ -4,6 +4,7 @@ python:
 before_install:
     - sudo apt-get -qq update
     - sudo apt-get install -y libav-tools
+    - sudo apt-get install -y ubuntu-restricted-extras
 install:
     - cp contrib/env-sample .env
     - pip install -q -r requirements.txt
