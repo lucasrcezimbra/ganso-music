@@ -19,8 +19,7 @@ def download(request):
         audio = pafy.new(url).getbestaudio()
         filepath = audio.download()
 
-        mp3_filepath = convert_to_mp3_with_tags(audio.title,
-                                                filepath, audio.extension,
+        mp3_filepath = convert_to_mp3_with_tags(filepath, audio.extension,
                                                 title, artist, genre)
 
         audio_file = open(mp3_filepath, 'rb')
@@ -32,11 +31,11 @@ def download(request):
         os.remove(mp3_filepath)
         return response
 
-def convert_to_mp3_with_tags(newtitle, file, extension, title, artist, genre):
+def convert_to_mp3_with_tags(file, extension, title, artist, genre):
     tags = {'artist': artist,
             'title': title,
             'genre': genre}
-    mp3_filepath = slugify('{}.mp3'.format(newtitle))
+    mp3_filepath = slugify('{} - {}.mp3'.format(artist, title))
     mp3_audio = AudioSegment.from_file(file, extension)
     mp3_audio.export(mp3_filepath, format='mp3', tags=tags)
     return mp3_filepath

@@ -31,12 +31,12 @@ class HomeTest(TestCase):
 class DownloadTest(TestCase):
     def setUp(self):
         self.url = 'wJM-eaC8mug'
-        self.filepath = 'MENOR VIDEO DO MUNDO!_ THE BIGGER VIDEO IN THE WORLD!.m4a'
-        self.filename = 'MENOR VIDEO DO MUNDO! THE BIGGER VIDEO IN THE WORLD!'
         self.extension = 'mp3'
         self.title = 'Music Title'
         self.artist = 'Music artist'
         self.genre = 'Music genre'
+        self.filename = '{} - {}'.format(self.artist, self.title)
+        self.filepath = '{}.m4a'.format(self.filename)
         data = dict(url=self.url, title=self.title,
                     artist=self.artist, genre=self.genre)
         self.response = self.client.post('/download/', data)
