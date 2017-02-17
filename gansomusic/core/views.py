@@ -39,7 +39,6 @@ def convert_to_mp3_with_tags(file, new_name, extension, title, artist, genre):
             'title': title,
             'genre': genre,
             'lyrics': get_lyric(artist, title)}
-    mp3_filename = get_filename(title, artist, extension)
     mp3_filepath = slugify(new_name)
     mp3_audio = AudioSegment.from_file(file, extension)
     mp3_audio.export(mp3_filepath, format='mp3', tags=tags)
