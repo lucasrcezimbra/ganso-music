@@ -1,6 +1,7 @@
 import os.path
 from django.test import TestCase
 from gansomusic.core.forms import MusicForm
+from gansomusic.core.views import get_filename
 from pydub.utils import mediainfo
 
 class HomeTest(TestCase):
@@ -62,11 +63,7 @@ class DownloadTest(TestCase):
         self.assertEqual('mp3', extension)
 
     def test_file_has_tags(self):
-        response_file = 'response_audio.mp3'
-
-        with open(response_file, 'wb') as file:
-            file.write(self.response._container[0])
-
+        response_file = self.response_to_file()
         tags = mediainfo(response_file)['TAG']
         self.assertEqual(self.title, tags.get('title'))
         self.assertEqual(self.artist, tags.get('artist'))
@@ -76,10 +73,53 @@ class DownloadTest(TestCase):
         self.assertFalse(os.path.exists(self.filepath))
         self.assertFalse(os.path.exists('{}.{}'.format(self.filename,
                                                        self.extension)))
+    def test_add_lyric(self):
+        self.title = 'Back in Black'
+        self.artist = 'AC/DC'
+        data = dict(url=self.url, title=self.title,
+                    artist=self.artist, genre=self.genre)
+        self.response = self.client.post('/download/', data)
+
+        response_file = self.response_to_file()
+        tags = mediainfo(response_file)['TAG']
+        self.assertIsNotNone(tags.get('lyrics'))
+
+    def response_to_file(self):
+        response_file = 'response_audio.mp3'
+
+        with open(response_file, 'wb') as file:
+            file.write(self.response._container[0])
+
+        return response_file
+
+    def test_dont_rename_when_dont_have_artist_or_title(self):
+        self.title = ''
+        self.artist = ''
+        data = dict(url=self.url, title=self.title,
+                    artist=self.artist, genre=self.genre)
+        self.response = self.client.post('/download/', data)
+
+        filename = 'MENOR VIDEO DO MUNDO! THE BIGGER VIDEO IN THE WORLD!'
+        content_disposition = 'attachment; filename={}'.format(filename)
+        self.assertEquals(content_disposition,
+                          self.response.get('Content-Disposition'))
+
+    def test_get_filename(self):
+        youtube_title = 'Youtube Title'
+
+        self.assertEqual(get_filename('title', 'artist', youtube_title),
+                         'artist - title.mp3')
+        self.assertEqual(get_filename('', 'artist', youtube_title),
+                         youtube_title)
+        self.assertEqual(get_filename('title', '', youtube_title),
+                         youtube_title)
+        self.assertEqual(get_filename('', '', youtube_title),
+                         youtube_title)
 
     def tearDown(self):
         if os.path.exists('response_audio.mp3'):
             os.remove('response_audio.mp3')
+
 
 class MusicFormTest(TestCase):
     def test_form_has_fields(self):
