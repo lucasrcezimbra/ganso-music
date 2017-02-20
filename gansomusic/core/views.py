@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from pydub import AudioSegment
 from vagalume import lyrics
+from urllib.parse import quote
 
 def index(request):
     return render(request, 'index.html')
@@ -28,8 +29,8 @@ def download(request):
         audio_file = open(mp3_filepath, 'rb')
         response = HttpResponse(content=audio_file)
         response['Content-Type'] = 'audio/mpeg3'
-        response['Content-Disposition'] = 'attachment; filename={}'\
-                                           .format(mp3_filepath)
+        response['Content-Disposition'] = "attachment; filename*=utf-8''{}"\
+                                           .format(quote(mp3_filepath))
         os.remove(filepath)
         os.remove(mp3_filepath)
         return response

@@ -3,6 +3,7 @@ from django.test import TestCase
 from gansomusic.core.forms import MusicForm
 from gansomusic.core.views import get_filename
 from pydub.utils import mediainfo
+from urllib.parse import quote
 
 class HomeTest(TestCase):
     def setUp(self):
@@ -47,7 +48,8 @@ class DownloadTest(TestCase):
 
     def test_response_content_disposition(self):
         filename = '{}.{}'.format(self.filename, self.extension)
-        content_disposition = 'attachment; filename={}'.format(filename)
+        content_disposition = "attachment; filename*=utf-8''{}"\
+                                .format(quote(filename))
         self.assertEquals(content_disposition,
                           self.response.get('Content-Disposition'))
 
@@ -100,7 +102,8 @@ class DownloadTest(TestCase):
         self.response = self.client.post('/download/', data)
 
         filename = 'MENOR VIDEO DO MUNDO! THE BIGGER VIDEO IN THE WORLD!'
-        content_disposition = 'attachment; filename={}'.format(filename)
+        content_disposition = "attachment; filename*=utf-8''{}"\
+                                .format(quote(filename))
         self.assertEquals(content_disposition,
                           self.response.get('Content-Disposition'))
 
