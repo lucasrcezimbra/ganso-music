@@ -2,7 +2,7 @@ dj-static==0.0.6
 Django==1.10.5
 python-decouple==3.0
 static3==0.7.0
-gunicorn==19.6.0
+gunicorn==19.7.0
 pafy==0.5.3.1
 youtube-dl==2017.3.2
 django-extensions==1.7.6
