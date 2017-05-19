@@ -8,4 +8,4 @@ youtube-dl==2017.3.2
 django-extensions==1.7.6
 pydub==0.18.0
 vagalume==0.0.5
-mutagen==1.36.2
+eyeD3==0.8

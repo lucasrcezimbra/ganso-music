@@ -1,4 +1,4 @@
-import mutagen.id3
+import eyed3
 import os
 import pafy
 from django.http import HttpResponse
@@ -48,14 +48,13 @@ def convert_to_mp3_with_tags(file, new_name, extension, title, artist, genre):
 def get_filename(title, artist, youtube_title):
     if title and artist:
         return '{} - {}.mp3'.format(artist, title)
-    return youtube_title
+    return '{}.mp3'.format(youtube_title)
 
 def set_lyric(filepath, artist, title):
-    mp3_file = mutagen.id3.ID3(filepath)
+    mp3 = eyed3.load(filepath)
     lyric = get_lyric(artist, title)
-    uslt = mutagen.id3.USLT(text=lyric)
-    mp3_file.add(uslt)
-    mp3_file.save(v2_version=3)
+    mp3.tag.lyrics.set(lyric)
+    mp3.tag.save(version=eyed3.id3.ID3_V2_3)
 
 def get_lyric(artist, title):
     # try:

@@ -1,4 +1,4 @@
-import mutagen.id3
+import eyed3
 import os.path
 from django.test import TestCase
 from gansomusic.core.forms import MusicForm
@@ -84,8 +84,8 @@ class DownloadTest(TestCase):
         self.response = self.client.post('/download/', data)
 
         response_file = self.response_to_file()
-        tags = mediainfo(response_file)['TAG']
-        self.assertIsNotNone(tags.get('lyrics-XXX'))
+        mp3 = eyed3.load(response_file)
+        self.assertIsNotNone(mp3.tag.lyrics)
 
     def response_to_file(self):
         response_file = 'response_audio.mp3'
@@ -102,9 +102,9 @@ class DownloadTest(TestCase):
                     artist=self.artist, genre=self.genre)
         self.response = self.client.post('/download/', data)
 
-        filename = 'MENOR VIDEO DO MUNDO! THE BIGGER VIDEO IN THE WORLD!'
+        expected_filename = 'MENOR VIDEO DO MUNDO! THE BIGGER VIDEO IN THE WORLD!.mp3'
         content_disposition = "attachment; filename*=utf-8''{}"\
-                                .format(quote(filename))
+                                .format(quote(expected_filename))
         self.assertEquals(content_disposition,
                           self.response.get('Content-Disposition'))
 
@@ -114,16 +114,16 @@ class DownloadTest(TestCase):
         self.assertEqual(get_filename('title', 'artist', youtube_title),
                          'artist - title.mp3')
         self.assertEqual(get_filename('', 'artist', youtube_title),
-                         youtube_title)
+                         '{}.mp3'.format(youtube_title))
         self.assertEqual(get_filename('title', '', youtube_title),
-                         youtube_title)
+                         '{}.mp3'.format(youtube_title))
         self.assertEqual(get_filename('', '', youtube_title),
-                         youtube_title)
+                         '{}.mp3'.format(youtube_title))
 
     def test_id3_version(self):
         response_file = self.response_to_file()
-        id3 = mutagen.id3.ID3(response_file)
-        self.assertEqual(id3.version, (2,3,0))
+        mp3 = eyed3.load(response_file)
+        self.assertEqual(mp3.tag.version, (2,3,0))
 
     def tearDown(self):
         if os.path.exists('response_audio.mp3'):
