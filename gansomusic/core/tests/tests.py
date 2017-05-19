@@ -4,8 +4,8 @@ from django.test import TestCase
 from gansomusic.core.forms import MusicForm
 from gansomusic.core.views import get_filename
 from gansomusic.core.helpers import Mp3Tagger
-from gansomusic.settings import BASE_DIR
 from pydub.utils import mediainfo
+from unittest.mock import Mock
 from urllib.parse import quote
 from shutil import copyfile
 
@@ -163,9 +163,9 @@ class Mp3TaggerHelperTest(TestCase):
 
         self._create_new_audiofile()
 
-        self.title = 'Title'
-        self.artist = 'Artist'
-        self.genre = 'Genre'
+        self.title = 'Back in Black'
+        self.artist = 'AC/DC'
+        self.genre = 'Rock'
         self.mp3_tagger = Mp3Tagger(self.path, self.title,
                                     self.artist, self.genre)
 
@@ -181,8 +181,13 @@ class Mp3TaggerHelperTest(TestCase):
         id3_tag = eyed3.load(self.mp3_tagger.path).tag
         self.assertEqual(id3_tag.title, self.mp3_tagger.title)
         self.assertEqual(id3_tag.artist, self.mp3_tagger.artist)
-        self.assertEqual(str(id3_tag.genre), self.mp3_tagger.genre)
+        self.assertEqual(id3_tag.genre.name, self.mp3_tagger.genre)
         self.assertEqual(id3_tag.version, self.mp3_tagger.id3_version)
+
+    def test_lyric_tag(self):
+        self.mp3_tagger.edit_tags()
+        id3_tag = eyed3.load(self.mp3_tagger.path).tag
+        self.assertTrue(id3_tag.lyrics[0].text)
 
     def tearDown(self):
         os.remove(self.path)
