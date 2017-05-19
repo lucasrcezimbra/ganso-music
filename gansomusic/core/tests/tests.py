@@ -3,8 +3,11 @@ import os.path
 from django.test import TestCase
 from gansomusic.core.forms import MusicForm
 from gansomusic.core.views import get_filename
+from gansomusic.core.helpers import Mp3Tagger
+from gansomusic.settings import BASE_DIR
 from pydub.utils import mediainfo
 from urllib.parse import quote
+from shutil import copyfile
 
 class HomeTest(TestCase):
     def setUp(self):
@@ -152,3 +155,38 @@ class MusicFormTest(TestCase):
         errors = form.errors
         errors_list = errors[field]
         self.assertEqual([msg], errors_list)
+
+class Mp3TaggerHelperTest(TestCase):
+    def setUp(self):
+        self.tests_path = os.path.dirname(os.path.realpath(__file__))
+        self.path = self.tests_path + '/audio.mp3'
+
+        self._create_new_audiofile()
+
+        self.title = 'Title'
+        self.artist = 'Artist'
+        self.genre = 'Genre'
+        self.mp3_tagger = Mp3Tagger(self.path, self.title,
+                                    self.artist, self.genre)
+
+    def test_init_mp3_tagger(self):
+        self.assertEqual(self.mp3_tagger.path, self.path)
+        self.assertEqual(self.mp3_tagger.title, self.title)
+        self.assertEqual(self.mp3_tagger.artist, self.artist)
+        self.assertEqual(self.mp3_tagger.genre, self.genre)
+        self.assertEqual(self.mp3_tagger.id3_version, eyed3.id3.ID3_V2_3)
+
+    def test_edit_tags(self):
+        self.mp3_tagger.edit_tags()
+        id3_tag = eyed3.load(self.mp3_tagger.path).tag
+        self.assertEqual(id3_tag.title, self.mp3_tagger.title)
+        self.assertEqual(id3_tag.artist, self.mp3_tagger.artist)
+        self.assertEqual(str(id3_tag.genre), self.mp3_tagger.genre)
+        self.assertEqual(id3_tag.version, self.mp3_tagger.id3_version)
+
+    def tearDown(self):
+        os.remove(self.path)
+
+    def _create_new_audiofile(self):
+        audio_without_tags_path = self.tests_path + '/audio_without_tags.mp3'
+        copyfile(audio_without_tags_path, self.path)
