@@ -4,7 +4,7 @@ python-decouple==3.1
 static3==0.7.0
 gunicorn==19.7.1
 pafy==0.5.3.1
-youtube-dl==2017.8.23
+youtube-dl==2017.8.27.1
 django-extensions==1.9.0
 pydub==0.20.0
 vagalume==0.0.5
