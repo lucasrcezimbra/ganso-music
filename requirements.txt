@@ -5,7 +5,7 @@ static3==0.7.0
 gunicorn==19.7.1
 pafy==0.5.3.1
 youtube-dl==2017.10.29
-django-extensions==1.9.6
+django-extensions==1.9.7
 pydub==0.20.0
 vagalume==0.0.5
 eyeD3==0.8.3
