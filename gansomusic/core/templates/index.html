@@ -41,7 +41,7 @@
     <div class="row">
       <div class="col-sm-12 col-xs-12 col-md-8 col-md-offset-2">
         <form action="download/" method="POST">
-		  {% csrf_token %}
+		  <input text="hidden" name="redirect" value="1" hidden />
           <div class="form-group">
             <label class="control-label" for="">*URL do YouTube:</label>
             <input type="text" name='url' placeholder='URL do YouTube' class="form-control" required/>
@@ -63,7 +63,8 @@
           </div>
 
           <input type="reset" value="Clear" class="btn btn-lg btn-danger">
-          <input type="submit" value='Download' class="btn btn-lg btn-warning pull-right">
+          <input type="submit" value="Download" name="download" class="btn btn-lg btn-warning pull-right">
+          <input type="submit" value="Download Link" name="download-link" class="btn btn-lg btn-warning pull-right">
         </form>
       </div>
     </div>
