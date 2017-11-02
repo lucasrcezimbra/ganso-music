@@ -20,15 +20,15 @@ class HomeTest(TestCase):
         self.assertTemplateUsed(self.response, 'index.html')
 
     def test_has_csrf_token(self):
-        self.assertContains(self.response, 'csrfmiddlewaretoken')
+        self.assertNotContains(self.response, 'csrfmiddlewaretoken')
 
     def test_html(self):
         """Html must contain input tags"""
         tags = (('<form', 1),
-                ('<input', 7),
+                ('<input', 8),
                 ('type="text"', 4),
                 ('type="reset"', 1),
-                ('type="submit"', 1))
+                ('type="submit"', 2))
 
         for text, count in tags:
             with self.subTest():
@@ -44,7 +44,7 @@ class DownloadTest(TestCase):
         self.filename = '{} - {}'.format(self.artist, self.title)
         self.filepath = '{}.m4a'.format(self.filename)
         data = dict(url=self.url, title=self.title,
-                    artist=self.artist, genre=self.genre)
+                    artist=self.artist, genre=self.genre, download='download')
         self.response = self.client.post('/download/', data)
 
     def test_post(self):
@@ -83,7 +83,7 @@ class DownloadTest(TestCase):
         self.title = 'Back in Black'
         self.artist = 'AC/DC'
         data = dict(url=self.url, title=self.title,
-                    artist=self.artist, genre=self.genre)
+                    artist=self.artist, genre=self.genre, download='download')
         self.response = self.client.post('/download/', data)
 
         response_file = self.response_to_file()
@@ -102,7 +102,7 @@ class DownloadTest(TestCase):
         self.title = ''
         self.artist = ''
         data = dict(url=self.url, title=self.title,
-                    artist=self.artist, genre=self.genre)
+                    artist=self.artist, genre=self.genre, download='download')
         self.response = self.client.post('/download/', data)
 
         expected_filename = 'MENOR VIDEO DO MUNDO! THE BIGGER VIDEO IN THE WORLD!.mp3'
