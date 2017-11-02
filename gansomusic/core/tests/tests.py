@@ -1,13 +1,18 @@
-import eyed3
 import os.path
+from shutil import copyfile
+from unittest.mock import Mock, patch
+from urllib.parse import quote
+
+import eyed3
+from django.conf import settings
 from django.test import TestCase
+from pydub.utils import mediainfo
+from storages.backends.dropbox import DropBoxStorage
+
 from gansomusic.core.forms import MusicForm
 from gansomusic.core.views import get_filename
 from gansomusic.core.helpers import Mp3Tagger
-from pydub.utils import mediainfo
-from unittest.mock import Mock
-from urllib.parse import quote
-from shutil import copyfile
+
 
 class HomeTest(TestCase):
     def setUp(self):
@@ -195,3 +200,11 @@ class Mp3TaggerHelperTest(TestCase):
     def _create_new_audiofile(self):
         audio_without_tags_path = self.tests_path + '/audio_without_tags.mp3'
         copyfile(audio_without_tags_path, self.path)
+
+
+class GansoMusicTest(TestCase):
+    @patch('storages.backends.dropbox.Dropbox')
+    def test_dropbox_timeout(self, Dropbox):
+        timeout = 60
+        DropBoxStorage()
+        Dropbox.assert_called_with(settings.DROPBOX_OAUTH2_TOKEN, timeout)

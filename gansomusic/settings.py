@@ -127,3 +127,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 DROPBOX_OAUTH2_TOKEN = config('DROPBOX_OAUTH2_TOKEN')
 DROPBOX_ROOT_PATH = '/'
+DROPBOX_TIMEOUT = 60
