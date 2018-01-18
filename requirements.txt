@@ -12,4 +12,4 @@ pydub==0.20.0
 python-decouple==3.1
 static3==0.7.0
 vagalume==0.0.5
-youtube-dl==2018.1.14
+youtube-dl==2018.1.18
