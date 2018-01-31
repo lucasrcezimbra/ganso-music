@@ -3,7 +3,7 @@ dj-static==0.0.6
 Django==1.11.7
 django-extensions==1.9.9
 -e git+https://github.com/lrcezimbra/django-storages.git@812288cbf38849f2eeaaeb7aa936eed5ee6f8a08#egg=django_storages
-dropbox==8.6.0
+dropbox==8.7.0
 eyeD3==0.8.4
 gunicorn==19.7.1
 pafy==0.5.3.1
