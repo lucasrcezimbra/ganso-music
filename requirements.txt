@@ -7,7 +7,7 @@ dropbox==8.7.0
 eyeD3==0.8.4
 gunicorn==19.7.1
 pafy==0.5.3.1
-psycopg2==2.7.3.2
+psycopg2==2.7.4
 pydub==0.20.0
 python-decouple==3.1
 static3==0.7.0
