@@ -1,6 +1,6 @@
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==1.11.7
+Django==1.11.11
 django-extensions==2.0.5
 -e git+https://github.com/lrcezimbra/django-storages.git@812288cbf38849f2eeaaeb7aa936eed5ee6f8a08#egg=django_storages
 dropbox==8.7.1
