@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+import raven
 from decouple import config, Csv
 from dj_database_url import parse as dburl
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,8 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'gansomusic.core',
+    'raven.contrib.django.raven_compat',
     'storages',
+    'gansomusic.core',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +131,9 @@ DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 DROPBOX_OAUTH2_TOKEN = config('DROPBOX_OAUTH2_TOKEN')
 DROPBOX_ROOT_PATH = '/'
 DROPBOX_TIMEOUT = 60
+
+
+RAVEN_CONFIG = {
+    'dsn': config('SENTRY_DSN'),
+    'release': raven.fetch_git_sha(os.path.abspath(BASE_DIR)),
+}
