@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-import raven
 from decouple import config, Csv
 from dj_database_url import parse as dburl
 
@@ -135,5 +134,4 @@ DROPBOX_TIMEOUT = 60
 
 RAVEN_CONFIG = {
     'dsn': config('SENTRY_DSN'),
-    'release': raven.fetch_git_sha(os.path.abspath(BASE_DIR)),
 }
