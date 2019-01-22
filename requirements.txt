@@ -8,7 +8,7 @@ eyeD3==0.8.7
 gunicorn==19.8.0
 pafy==0.5.4
 psycopg2==2.7.4
-pydub==0.22.0
+pydub==0.23.1
 python-decouple==3.1
 raven==6.9.0
 static3==0.7.0
