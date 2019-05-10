@@ -13,4 +13,4 @@ python-decouple==3.1
 raven==6.9.0
 static3==0.7.0
 vagalume==0.0.5
-youtube-dl==2018.6.25
+youtube-dl==2019.5.11
